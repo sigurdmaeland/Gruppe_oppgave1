@@ -1,8 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model Gruppe_oppgave1.Models.MapModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+
+<html lang="no">
+<head>
+    <title>Map</title>
+</head>
+<body>
+     <h1>Location Entry Form</h1>
+    <form asp-action="KartRetting" method="post">
+        <div class="form-group">
+            <label for="latitude">Latitude:</label>
+            <input type="text" step="any" id="latitude" name="Latitude" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="longitude">Longitude:</label>
+            <input type="text" step="any" id="longitude" name="Longitude" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="Description" rows="4" class="form-control" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div id="map" style="height: 400px;"></div>
+
+     @section Scripts {
+     <script>
+         // Initialiserer kartet
+            var map = L.map('map').setView([63.00845853670787, 10.136718302965166], 7);
+
+         // Legg til OpenStreetMap flislag (tile layer)
+            L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+            }).addTo(map);
+
+         // Klikkhendelse for å plassere en markør
+         map.on('click', function(e) {
+             var lat = e.latlng.lat;
+             var lng = e.latlng.lng;
+
+             // Oppdaterer skjulte felter med breddegrad og lengdegrad
+             document.getElementById('latitude').value = lat;
+             document.getElementById('longitude').value = lng;
+
+             // Legg til en markør på klikkstedet
+             L.marker([lat, lng]).addTo(map);
+         });
+     </script>
+     }
+
+</body>
+</html>
