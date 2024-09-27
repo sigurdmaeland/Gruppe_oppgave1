@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Gruppe_oppgave1.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Gruppe_oppgave1.Controllers
 {
+
     public class MapController : Controller
     {
+        private static List<MapModel> positions = new List<MapModel>();
+
         [HttpGet]
         public IActionResult Map()
         {
@@ -11,7 +15,7 @@ namespace Gruppe_oppgave1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Map(MapModel model)
+        public IActionResult Map(Models.MapModel model)
         {
             if (ModelState.IsValid)
             {
