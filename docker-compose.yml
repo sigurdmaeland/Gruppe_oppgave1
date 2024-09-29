@@ -1,0 +1,6 @@
+﻿services:
+  gruppe_oppgave1:
+    image: gruppe_oppgave1
+    build:
+      context: .
+      dockerfile: Gruppe_oppgave1/Dockerfile

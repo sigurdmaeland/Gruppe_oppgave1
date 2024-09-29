@@ -1,0 +1,62 @@
+@model List<Gruppe_oppgave1.Models.MapModel>
+
+
+
+
+<div class="table-container">
+    <h1>Map feedback:</h1>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @foreach (var position in Model)
+        {
+            <tr>
+                <td>@position.Latitude</td>
+                <td>@position.Longitude</td>
+                <td>@position.Description</td> 
+            </tr>
+        }
+
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script>
+        // Initialiserer kartet
+        var map = L.map('map').setView([0, 0], 2);
+
+        // Legg til OpenStreetMap flislag (tile layer)
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Serialiserer C# Model til JSON for bruk i JavaScript
+        var positions = @Html.Raw(Json.Serialize(Model));
+
+        positions.forEach(function (position) {
+            var marker = L.marker([position.latitude, position.longitude]).addTo(map);
+
+            // Bygger URL for Nominatim med riktige parametere
+            var url = `http://nominatim.openstreetmap.org/reverse?format=json&lat=${position.latitude}&lon=${position.longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var address = data.display_name ? data.display_name : "Address not found";
+                    marker.bindPopup(`${position.description}<br>Address: ${address}`).openPopup();
+                })
+                .catch(error => {
+                    marker.bindPopup(`${position.description}<br>Address: Not available`).openPopup();
+                });
+        });
+    </script>
+}
