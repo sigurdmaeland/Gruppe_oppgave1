@@ -8,31 +8,37 @@
     <title>Map</title>
 </head>
 <body>
-     <h1>Location Entry Form</h1>
-    <form asp-action="MapModel" method="post">
+<h1>Location Entry Form</h1>
+    <!-- Skjema for å legge inn kartdata. Asp-action spesifiserer at skjemaet vil sende data til map-action i controlleren når det postes -->
+    <form asp-action="Map" method="post">
+        <!-- Felt for å skrive inn breddegrad -->
         <div class="form-group">
             <label for="latitude">Latitude:</label>
             <input type="text" step="any" id="latitude" name="Latitude" class="form-control" required>
         </div>
+        <!-- Felt for å skrive inn lengdegrad -->
         <div class="form-group">
             <label for="longitude">Longitude:</label>
             <input type="text" step="any" id="longitude" name="Longitude" class="form-control" required>
         </div>
+        <!-- Felt for å skrive inn en beskrivelse -->
         <div class="form-group">
             <label for="description">Description:</label>
             <textarea id="description" name="Description" rows="4" class="form-control" required></textarea>
         </div>
+        <!-- submit knapp for å sende inn dataene i skjemaet-->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-
+    <!-- En plassholder som viser kartet  -->
     <div id="map" style="height: 400px;"></div>
 
      @section Scripts {
-     <script>
+         <script>
+         // Implementasjon av kartet i Javascript
          // Initialiserer kartet
             var map = L.map('map').setView([63.00845853670787, 10.136718302965166], 7);
 
-         // Legg til OpenStreetMap flislag (tile layer)
+         // Legger til OpenStreetMap flislag (tile layer)
             L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
                 attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
             }).addTo(map);
@@ -49,7 +55,8 @@
              // Legg til en markør på klikkstedet
              L.marker([lat, lng]).addTo(map);
          });
-     </script>
+     
+         </script>
      }
 
 </body>

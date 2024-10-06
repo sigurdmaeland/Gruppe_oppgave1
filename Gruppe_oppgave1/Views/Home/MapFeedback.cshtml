@@ -2,9 +2,11 @@
 
 
 
-
+<!-- Oppretter en container som skal vise karttilbakemeldinger -->
 <div class="table-container">
     <h1>Map feedback:</h1>
+    
+    <!-- Setter opp en tabell som viser de ulike dataopplysningene -->
     <table class="styled-table">
         <thead>
         <tr>
@@ -14,7 +16,8 @@
         </tr>
         </thead>
         <tbody>
-
+        
+        <!-- Laget en løkke som går gjennom hver posisjon i MapModel og fyller ut en rad i tabellen -->
         @foreach (var position in Model)
         {
             <tr>
@@ -31,7 +34,7 @@
 @section Scripts
 {
     <script>
-        // Initialiserer kartet
+        // Initialiserer kartet og setter kordinater på bestemt sted.
         var map = L.map('map').setView([0, 0], 2);
 
         // Legg til OpenStreetMap flislag (tile layer)

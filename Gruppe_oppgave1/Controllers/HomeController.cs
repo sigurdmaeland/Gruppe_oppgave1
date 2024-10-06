@@ -25,19 +25,23 @@ public class HomeController : Controller
     }
    
     [HttpGet]
-    public IActionResult MapModel()
+    public IActionResult Map()
     {
-        return View();
+        return View(); // Retunerer en visning som viser et skjema hvor brukeren kan legge inn kartdata
     }
 
     [HttpPost]
-    public IActionResult MapModel(MapModel model)
+    public IActionResult Map(MapModel model)
     {
-        if (ModelState.IsValid)
+        // Sjekker om modellen er gyldig i henhold til valideringsreglene i MapModel.cs
+        if (ModelState.IsValid) 
         {
+            // Legger til den gyldige modellen
             positions.Add(model);
+            // Retunerer en visning kalt MapFeedback som viser listen over alle posisjoner
             return View("MapFeedback", positions);
         }
+        // Dersom modellen ikker er gyldig returneres det evt feilmeldinginger
         return View(model);
     }
     
